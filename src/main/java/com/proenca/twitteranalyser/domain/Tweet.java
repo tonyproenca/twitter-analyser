@@ -1,11 +1,11 @@
 package com.proenca.twitteranalyser.domain;
 
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import twitter4j.Status;
 
 @Entity(name = "TWEET")
 public class Tweet {
@@ -17,6 +17,21 @@ public class Tweet {
 
   @Column(name = "MESSAGE", nullable = false)
   private String message;
+
+  @Column(name = "USER_UID", nullable = false)
+  private Long twitterUserId;
+
+  @Column(name = "TWITTER_USER_NAME", nullable = false)
+  private String twitterUserName;
+
+  public static Tweet createTweetFromStatus(Status status) {
+    Tweet tweet = new Tweet();
+    tweet.setMessage(status.getText());
+    tweet.setTwitterUserId(status.getUser().getId());
+    tweet.setTwitterUserName(status.getUser().getName());
+
+    return tweet;
+  }
 
   public Long getId() {
     return id;
@@ -34,29 +49,19 @@ public class Tweet {
     this.message = message;
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Tweet tweet = (Tweet) o;
-    return Objects.equals(id, tweet.id) &&
-        Objects.equals(message, tweet.message);
+  public Long getTwitterUserId() {
+    return twitterUserId;
   }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, message);
+  public void setTwitterUserId(Long twitterUserId) {
+    this.twitterUserId = twitterUserId;
   }
 
-  @Override
-  public String toString() {
-    return "Tweet{" +
-        "id=" + id +
-        ", message='" + message + '\'' +
-        '}';
+  public String getTwitterUserName() {
+    return twitterUserName;
+  }
+
+  public void setTwitterUserName(String twitterUserName) {
+    this.twitterUserName = twitterUserName;
   }
 }

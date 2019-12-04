@@ -1,17 +1,25 @@
 package com.proenca.twitteranalyser.response;
 
-import java.util.List;
+import java.util.Set;
 
 public class TwitterAnalyserResponse {
 
-  List<UserResponse> userResponses;
+  Set<UserResponse> userResponses;
 
-  public List<UserResponse> getUserResponses() {
+  public TwitterAnalyserResponse() {
+  }
+
+  public TwitterAnalyserResponse(
+      Set<UserResponse> userResponses) {
+    this.userResponses = userResponses;
+  }
+
+  public Set<UserResponse> getUserResponses() {
     return userResponses;
   }
 
   public void setUserResponses(
-      List<UserResponse> userResponses) {
+      Set<UserResponse> userResponses) {
     this.userResponses = userResponses;
   }
 }

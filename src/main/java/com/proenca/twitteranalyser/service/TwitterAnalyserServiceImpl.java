@@ -1,11 +1,19 @@
 package com.proenca.twitteranalyser.service;
 
+import static com.proenca.twitteranalyser.domain.Tweet.createTweetFromStatus;
+import static com.proenca.twitteranalyser.response.UserResponse.createUserResponseFromUser;
+import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toCollection;
+import static java.util.stream.Collectors.toSet;
 
+import com.proenca.twitteranalyser.domain.Tweet;
+import com.proenca.twitteranalyser.repository.TweetRepository;
 import com.proenca.twitteranalyser.response.TwitterAnalyserResponse;
 import com.proenca.twitteranalyser.response.UserResponse;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -26,16 +34,19 @@ public class TwitterAnalyserServiceImpl implements TwitterAnalyserService {
   @Autowired
   private TagParameterService tagParameterService;
 
-  @Value("twitter.consumer.key")
+  @Autowired
+  private TweetRepository tweetRepository;
+
+  @Value("${twitter.consumer.key}")
   private String oAuthConsumerKey;
 
-  @Value("twitter.consumer.secret")
+  @Value("${twitter.consumer.secret}")
   private String oAuthConsumerSecret;
 
-  @Value("twitter.access.token")
+  @Value("${twitter.access.token}")
   private String oAuthAccessToken;
 
-  @Value("twitter.access.token.secret")
+  @Value("${twitter.access.token.secret}")
   private String oAuthAccessTokenSecret;
 
   public TwitterAnalyserResponse getTwitterAnalyserResponseBatch() {
@@ -47,25 +58,34 @@ public class TwitterAnalyserServiceImpl implements TwitterAnalyserService {
             consumeTwitter(tagParameter.getTag())).collect(
             toCollection(ArrayList::new));
 
-    List<UserResponse> userResponses = new ArrayList<>();
+    Set<UserResponse> userResponses = new HashSet<>();
+
     queryResultList.parallelStream().forEach(queryResult ->
-      userResponses.addAll(collectDataFromTwitterResult(queryResult)));
+        userResponses.addAll(collectDataFromTwitterResult(queryResult)));
 
-    //from list of 5 most followed users for each hashtag, select the 5 final most followed,
-    //sumarize and retrieve to controller
-
-    return new TwitterAnalyserResponse();
+    return new TwitterAnalyserResponse(userResponses);
   }
 
-  private List<UserResponse> collectDataFromTwitterResult(QueryResult queryResult) {
+  private Set<UserResponse> collectDataFromTwitterResult(QueryResult queryResult) {
 
-    // run every tweet inside query result
-    // add every message into a sub list of messages
-    // sort top 5 most followed users
-    // save batch all messages
-    // retrieve 5 most followed users information
+    Set<UserResponse> userList = new HashSet<>();
+    List<Tweet> tweetList = new ArrayList<>();
 
-    return new ArrayList<>();
+    queryResult.getTweets()
+        .parallelStream()
+        .forEach(status -> {
+          userList.add(createUserResponseFromUser(status.getUser()));
+          tweetList.add(createTweetFromStatus(status));
+        });
+
+    tweetRepository.saveAll(tweetList);
+
+    return userList
+        .parallelStream()
+        .sorted(comparing(UserResponse::getFollowersCount))
+        .limit(5)
+        .collect(toSet());
+
   }
 
   private QueryResult consumeTwitter(String hashTag) {
@@ -88,15 +108,13 @@ public class TwitterAnalyserServiceImpl implements TwitterAnalyserService {
 
   private QueryResult getTweets(Query query, Twitter twitter) {
 
-    QueryResult result;
-
+    QueryResult result = null;
     try {
       result = twitter.search(query);
     } catch (TwitterException e) {
       throw new HttpClientErrorException(HttpStatus.INTERNAL_SERVER_ERROR,
           "A error occurred during Twitter query. Please, try again later");
     }
-
     return result;
   }
 }
