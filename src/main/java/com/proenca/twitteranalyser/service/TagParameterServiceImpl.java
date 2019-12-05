@@ -20,15 +20,20 @@ public class TagParameterServiceImpl implements TagParameterService {
   @Override
   public void createTag(PostTagRequest request) {
 
-    if (!request.getTag().startsWith("#")) {
-      request.setTag("#" + request.getTag());
-    }
+    validateTag(request);
 
     repository.save(new TagParameter(request.getTag()));
   }
 
+  private void validateTag(PostTagRequest request) {
+    if (!request.getTag().startsWith("#")) {
+      request.setTag("#" + request.getTag());
+    }
+  }
+
   @Override
   public void deleteTag(PostTagRequest request) {
+    validateTag(request);
     repository.deleteByTag(request.getTag());
   }
 
