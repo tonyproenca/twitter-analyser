@@ -64,44 +64,6 @@ public class TwitterAnalyserControllerTest {
   }
 
   @Test
-  public void testPostTag() throws Exception {
-    String url = "/twitter/analyser/tag";
-
-    PostTagRequest request = new PostTagRequest();
-    request.setTag("dummyTag");
-
-    ObjectMapper objectMapper = new ObjectMapper();
-    String jsonValue = objectMapper.writeValueAsString(request);
-
-    mvc.perform(post(url)
-        .content(jsonValue)
-        .accept(MediaType.APPLICATION_JSON_VALUE))
-        .andExpect(MockMvcResultMatchers.status()
-            .isCreated());
-
-    then(tagParameterService).should().createTag(any(PostTagRequest.class));
-  }
-
-  @Test
-  public void testDeleteTag() throws Exception {
-    String url = "/twitter/analyser/tag";
-
-    PostTagRequest request = new PostTagRequest();
-    request.setTag("dummyTag");
-
-    ObjectMapper objectMapper = new ObjectMapper();
-    String jsonValue = objectMapper.writeValueAsString(request);
-
-    mvc.perform(delete(url)
-        .content(jsonValue)
-        .accept(MediaType.APPLICATION_JSON_VALUE))
-        .andExpect(MockMvcResultMatchers.status()
-            .isOk());
-
-    then(tagParameterService).should().deleteTag(any(PostTagRequest.class));
-  }
-
-  @Test
   public void testGetAllTags() throws Exception {
     String url = "/twitter/analyser/tags";
 
