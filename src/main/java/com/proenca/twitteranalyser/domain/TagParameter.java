@@ -58,4 +58,12 @@ public class TagParameter {
   public int hashCode() {
     return Objects.hash(uniqueId, tag);
   }
+
+  @Override
+  public String toString() {
+    return "TagParameter{" +
+        "uniqueId=" + uniqueId +
+        ", tag='" + tag + '\'' +
+        '}';
+  }
 }

@@ -1,8 +1,8 @@
 package com.proenca.twitteranalyser.controller;
 
-import com.proenca.twitteranalyser.domain.TagParameter;
 import com.proenca.twitteranalyser.domain.dto.TagParameterDto;
 import com.proenca.twitteranalyser.request.PostTagRequest;
+import com.proenca.twitteranalyser.response.TopFollowersResponse;
 import com.proenca.twitteranalyser.response.TwitterAnalyserResponse;
 import com.proenca.twitteranalyser.service.TagParameterService;
 import com.proenca.twitteranalyser.service.TwitterAnalyserService;
@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,18 +32,18 @@ public class TwitterAnalyserController {
 
 
   @GetMapping(path = "/top/followed/by/tags")
-  public ResponseEntity<TwitterAnalyserResponse> getTopFiveMostFollowedUsersFromLastTweetsFromTag() {
+  public ResponseEntity<List<TopFollowersResponse>> getTopFiveMostFollowedUsersFromLastTweetsFromTag() {
     return new ResponseEntity<>(
         twitterAnalyserService.getTwitterAnalyserResponseBatch(),
         HttpStatus.OK
     );
   }
 
-  @PostMapping(path = "/tag")
+  @PostMapping(path = "/tag", consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Object> postTag(@RequestBody @Valid PostTagRequest request) {
     tagParameterService.createTag(request);
     return new ResponseEntity<>(
-        new Object(),
+        new TwitterAnalyserResponse(HttpStatus.CREATED.value(), HttpStatus.CREATED.name()),
         HttpStatus.CREATED
     );
   }
@@ -51,7 +52,7 @@ public class TwitterAnalyserController {
   public ResponseEntity<Object> deleteTag(@RequestBody @Valid PostTagRequest request) {
     tagParameterService.deleteTag(request);
     return new ResponseEntity<>(
-        new Object(),
+        new TwitterAnalyserResponse(HttpStatus.OK.value(), HttpStatus.OK.name()),
         HttpStatus.OK
     );
   }

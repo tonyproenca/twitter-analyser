@@ -1,5 +1,6 @@
 package com.proenca.twitteranalyser.response;
 
+import java.util.Objects;
 import twitter4j.User;
 
 public class UserResponse {
@@ -10,8 +11,9 @@ public class UserResponse {
   private String screenName;
   private Integer followersCount;
   private String userUrl;
+  private String tweetMessage;
 
-  public static UserResponse createUserResponseFromUser(User user) {
+  public static UserResponse createUserResponseFromUser(User user, String tweetMessage) {
 
     UserResponse userResponse = new UserResponse();
     userResponse.setId(user.getId());
@@ -20,6 +22,7 @@ public class UserResponse {
     userResponse.setFollowersCount(user.getFollowersCount());
     userResponse.setScreenName(user.getScreenName());
     userResponse.setUserUrl(user.getURL());
+    userResponse.setTweetMessage(tweetMessage);
 
     return userResponse;
   }
@@ -70,5 +73,49 @@ public class UserResponse {
 
   public void setUserUrl(String userUrl) {
     this.userUrl = userUrl;
+  }
+
+  public String getTweetMessage() {
+    return tweetMessage;
+  }
+
+  public void setTweetMessage(String tweetMessage) {
+    this.tweetMessage = tweetMessage;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    UserResponse that = (UserResponse) o;
+    return Objects.equals(id, that.id) &&
+        Objects.equals(name, that.name) &&
+        Objects.equals(email, that.email) &&
+        Objects.equals(screenName, that.screenName) &&
+        Objects.equals(followersCount, that.followersCount) &&
+        Objects.equals(userUrl, that.userUrl) &&
+        Objects.equals(tweetMessage, that.tweetMessage);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, name, email, screenName, followersCount, userUrl, tweetMessage);
+  }
+
+  @Override
+  public String toString() {
+    return "UserResponse{" +
+        "id=" + id +
+        ", name='" + name + '\'' +
+        ", email='" + email + '\'' +
+        ", screenName='" + screenName + '\'' +
+        ", followersCount=" + followersCount +
+        ", userUrl='" + userUrl + '\'' +
+        ", tweetMessage='" + tweetMessage + '\'' +
+        '}';
   }
 }
