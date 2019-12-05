@@ -1,9 +1,10 @@
 package com.proenca.twitteranalyser.service;
 
-import com.proenca.twitteranalyser.response.TwitterAnalyserResponse;
+import com.proenca.twitteranalyser.response.TopFollowersResponse;
+import java.util.List;
 
 public interface TwitterAnalyserService {
 
-  TwitterAnalyserResponse getTwitterAnalyserResponseBatch();
+  List<TopFollowersResponse> getTwitterAnalyserResponseBatch();
 
 }

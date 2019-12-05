@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(transactionManager = "transactionManager")
 public class TagParameterServiceImpl implements TagParameterService {
 
   @Autowired
@@ -17,6 +19,11 @@ public class TagParameterServiceImpl implements TagParameterService {
 
   @Override
   public void createTag(PostTagRequest request) {
+
+    if (!request.getTag().startsWith("#")) {
+      request.setTag("#" + request.getTag());
+    }
+
     repository.save(new TagParameter(request.getTag()));
   }
 
