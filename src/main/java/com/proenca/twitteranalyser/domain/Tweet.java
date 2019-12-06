@@ -29,15 +29,6 @@ public class Tweet {
   @Column(name = "TWITTER_USER_NAME", nullable = false)
   private String twitterUserName;
 
-  public static Tweet createTweetFromStatus(Status status) {
-    Tweet tweet = new Tweet();
-    tweet.setTweetId(status.getId());
-    tweet.setMessage(status.getText());
-    tweet.setTwitterUserId(status.getUser().getId());
-    tweet.setTwitterUserName(status.getUser().getName());
-    return tweet;
-  }
-
   public Long getId() {
     return id;
   }

@@ -1,18 +1,17 @@
 package com.proenca.twitteranalyser.mother;
 
-import com.proenca.twitteranalyser.domain.dto.TagParameterDto;
+import com.proenca.twitteranalyser.domain.TagParameter;
 
 public class TagParameterMother {
 
   private TagParameterMother() { }
 
-  public static TagParameterDto createTagParameterDto(String tag) {
-    var tagParameterDto = new TagParameterDto();
+  public static TagParameter createTagParameterDto(String tag) {
+    var tagParameter = new TagParameter();
+    tagParameter.setUniqueId(1L);
+    tagParameter.setTag(tag);
 
-    tagParameterDto.setUniqueId(1L);
-    tagParameterDto.setTag(tag);
-
-    return tagParameterDto;
+    return tagParameter;
   }
 
 }

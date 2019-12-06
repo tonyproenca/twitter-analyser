@@ -1,7 +1,6 @@
 package com.proenca.twitteranalyser.response;
 
 import java.util.Objects;
-import twitter4j.User;
 
 public class UserResponse {
 
@@ -12,20 +11,6 @@ public class UserResponse {
   private Integer followersCount;
   private String userUrl;
   private String tweetMessage;
-
-  public static UserResponse createUserResponseFromUser(User user, String tweetMessage) {
-
-    UserResponse userResponse = new UserResponse();
-    userResponse.setId(user.getId());
-    userResponse.setName(user.getName());
-    userResponse.setEmail(user.getEmail());
-    userResponse.setFollowersCount(user.getFollowersCount());
-    userResponse.setScreenName(user.getScreenName());
-    userResponse.setUserUrl(user.getURL());
-    userResponse.setTweetMessage(tweetMessage);
-
-    return userResponse;
-  }
 
   public Long getId() {
     return id;

@@ -1,21 +1,14 @@
 package com.proenca.twitteranalyser.controller;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.MockitoAnnotations.initMocks;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.proenca.twitteranalyser.domain.dto.TagParameterDto;
-import com.proenca.twitteranalyser.request.PostTagRequest;
 import com.proenca.twitteranalyser.response.TopFollowersResponse;
 import com.proenca.twitteranalyser.service.TagParameterService;
 import com.proenca.twitteranalyser.service.TwitterAnalyserService;
 import java.util.Collections;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -50,7 +43,7 @@ public class TwitterAnalyserControllerTest {
 
   @Test
   public void testGetTopFiveMostFollowedUsersFromLastTweetsFromTag() throws Exception {
-    String url = "/twitter/analyser/top/followed/by/tags";
+    String url = "/twitter/analyser/tags/topFollowers";
 
     given(twitterAnalyserService.getTwitterAnalyserResponseBatch())
         .willReturn(Collections.singletonList(new TopFollowersResponse()));
@@ -68,7 +61,7 @@ public class TwitterAnalyserControllerTest {
     String url = "/twitter/analyser/tags";
 
     given(tagParameterService.findAll())
-        .willReturn(Collections.singletonList(new TagParameterDto()));
+        .willReturn(Collections.singletonList("#aws"));
 
     mvc.perform(get(url)
         .accept(MediaType.APPLICATION_JSON_VALUE))
