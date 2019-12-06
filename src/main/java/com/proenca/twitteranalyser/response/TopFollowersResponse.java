@@ -1,7 +1,6 @@
 package com.proenca.twitteranalyser.response;
 
 import java.util.List;
-import java.util.Objects;
 
 public class TopFollowersResponse {
 
@@ -35,29 +34,4 @@ public class TopFollowersResponse {
     this.userResponses = userResponses;
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    TopFollowersResponse that = (TopFollowersResponse) o;
-    return Objects.equals(tag, that.tag) &&
-        Objects.equals(userResponses, that.userResponses);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(tag, userResponses);
-  }
-
-  @Override
-  public String toString() {
-    return "TopFollowersResponse{" +
-        "tag='" + tag + '\'' +
-        ", userResponses=" + userResponses +
-        '}';
-  }
 }

@@ -49,9 +49,9 @@ public class TagParameter {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    TagParameter tagParameter1 = (TagParameter) o;
-    return Objects.equals(uniqueId, tagParameter1.uniqueId) &&
-        Objects.equals(tag, tagParameter1.tag);
+    TagParameter that = (TagParameter) o;
+    return Objects.equals(uniqueId, that.uniqueId) &&
+        Objects.equals(tag, that.tag);
   }
 
   @Override

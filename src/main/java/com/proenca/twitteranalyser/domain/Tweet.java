@@ -1,5 +1,6 @@
 package com.proenca.twitteranalyser.domain;
 
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -67,5 +68,33 @@ public class Tweet {
 
   public void setTwitterUserName(String twitterUserName) {
     this.twitterUserName = twitterUserName;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Tweet tweet = (Tweet) o;
+    return Objects.equals(id, tweet.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
+  }
+
+  @Override
+  public String toString() {
+    return "Tweet{" +
+        "id=" + id +
+        ", message='" + message + '\'' +
+        ", tweetId=" + tweetId +
+        ", twitterUserId=" + twitterUserId +
+        ", twitterUserName='" + twitterUserName + '\'' +
+        '}';
   }
 }

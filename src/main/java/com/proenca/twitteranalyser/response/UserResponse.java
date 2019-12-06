@@ -1,7 +1,5 @@
 package com.proenca.twitteranalyser.response;
 
-import java.util.Objects;
-
 public class UserResponse {
 
   private Long id;
@@ -68,39 +66,4 @@ public class UserResponse {
     this.tweetMessage = tweetMessage;
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    UserResponse that = (UserResponse) o;
-    return Objects.equals(id, that.id) &&
-        Objects.equals(name, that.name) &&
-        Objects.equals(email, that.email) &&
-        Objects.equals(screenName, that.screenName) &&
-        Objects.equals(followersCount, that.followersCount) &&
-        Objects.equals(userUrl, that.userUrl) &&
-        Objects.equals(tweetMessage, that.tweetMessage);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, name, email, screenName, followersCount, userUrl, tweetMessage);
-  }
-
-  @Override
-  public String toString() {
-    return "UserResponse{" +
-        "id=" + id +
-        ", name='" + name + '\'' +
-        ", email='" + email + '\'' +
-        ", screenName='" + screenName + '\'' +
-        ", followersCount=" + followersCount +
-        ", userUrl='" + userUrl + '\'' +
-        ", tweetMessage='" + tweetMessage + '\'' +
-        '}';
-  }
 }

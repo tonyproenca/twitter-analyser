@@ -1,7 +1,5 @@
 package com.proenca.twitteranalyser.response;
 
-import java.util.Objects;
-
 public class TwitterAnalyserResponse {
 
   private int code;
@@ -28,29 +26,4 @@ public class TwitterAnalyserResponse {
     this.status = status;
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    TwitterAnalyserResponse that = (TwitterAnalyserResponse) o;
-    return code == that.code &&
-        Objects.equals(status, that.status);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(code, status);
-  }
-
-  @Override
-  public String toString() {
-    return "TwitterAnalyserResponse{" +
-        "code=" + code +
-        ", status='" + status + '\'' +
-        '}';
-  }
 }
